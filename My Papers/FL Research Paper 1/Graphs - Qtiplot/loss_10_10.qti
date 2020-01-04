@@ -1,0 +1,147 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+Table1	30	5	20/12/19 12:52 PM
+geometry	0	0	445	220	
+header	1[X]	0.05[Y]	0.10[Y]	0.15[Y]	0.25[Y]
+ColWidth	100	100	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0
+HiddenColumn	0	0	0	0	0
+Comments						
+WindowLabel		2
+<data>
+0	1	-0.8055483016	-0.8941095824	-0.8670422022	-0.8909174158
+1	2	-0.6223469562	-0.8425635225	-0.9341689814	-0.8720920024
+2	3	-0.7276072489	-0.9321050158	-0.9131029028	-0.9021671129
+3	4	-0.9598962859	-0.8457091168	-0.9831231901	-0.9709431019
+4	5	-0.9351295757	-0.9182661839	-0.9818216075	-0.9809908402
+5	6	-0.9824153737	-0.8957952061	-0.98768765	-0.9809927068
+6	7	-0.9885025493	-0.9784578968	-0.9651118602	-0.985763657
+7	8	-0.9825236871	-0.9836512166	-0.9863781887	-0.9866706966
+8	9	-0.9850959411	-0.9855292005	-0.9883545184	-0.9878699649
+9	10	-0.985470654	-0.9888321505	-0.9871935329	-0.9860623763
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	20/12/19 1:17 PM
+geometry	445	0	569	480	active
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	5	5	551	417
+<PageGeometry>0.00891266	0.0115741	0.982175	0.965278</PageGeometry>
+PlotTitle		#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	Communication Rounds	Average Training Loss			
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	4	5124	4	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Cantarell	13	75	0	0	0
+ScaleFont0	Cantarell	16	50	0	0	0
+ScaleFont1	Cantarell	11	75	0	0	0
+ScaleFont2	Cantarell	16	50	0	0	0
+ScaleFont3	Cantarell	11	75	0	0	0
+AxisFont0	Cantarell	11	50	0	0	0
+AxisFont1	Cantarell	11	50	0	0	0
+AxisFont2	Cantarell	11	50	0	0	0
+AxisFont3	Cantarell	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#4c4c4c	#4c4c4c	#4c4c4c	#4c4c4c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	Table1_1	Table1_0.25	0	1	#000000	0	2	7	0	#000000	#000000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_1	Table1_0.15	0	1	#ff0000	0	2	7	0	#ff0000	#ff0000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_1	Table1_0.10	0	1	#00ff00	0	2	7	0	#00ff00	#00ff00	0	#000000	14	1	2	0	0	29	1
+curve	Table1_1	Table1_0.05	0	1	#0000ff	0	2	7	0	#0000ff	#0000ff	0	#000000	14	1	2	0	0	29	1
+scale	0	-1	-0.6	0	9	5	0	0
+scale	1	-1	-0.6	0	9	5	0	0
+scale	2	0	11	0	7	1	0	0
+scale	3	0	11	0	7	1	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	0	1	0
+MinorTicks	1	0	1	0
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	2
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	0	1	0
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>7.8227571115974</x>
+<y>-0.85571847507331</y>
+<right>10.0612691466083</right>
+<bottom>-0.967155425219941</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+\l(3)%(3)
+\l(4)%(4)
+</Text>
+<Font>Cantarell	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>1</Frame>
+<Color>#ffffff</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>7.5339168490153</x>
+<y>-0.77243401759531</y>
+<right>11.0240700218818</right>
+<bottom>-0.859237536656892</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+Total clients = 100
+Epochs = 10
+Fraction of clients
+</Text>
+<Font>Cantarell	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>
