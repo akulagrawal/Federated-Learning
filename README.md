@@ -20,3 +20,7 @@ python -m ipykernel install --user --name ENVNAME --display-name "Python (whatev
 ### Undo uncommitted changes
 From root: git checkout .  
 From any directory: git reset --hard HEAD
+
+### Go to a previous commit
+git reflog  
+git cherry-pick 60699ba
