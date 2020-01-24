@@ -9,6 +9,11 @@ ssh al@pluto.example.com
 mkdir .ssh  
 cp id_rsa.pub .ssh/authorized_keys
 
+## Some Ubuntu terminal commands
+List processes running on that port: sudo lsof -t -i:<PORT>
+Kill processes running on that port: sudo kill -9 `sudo lsof -t -i:<PORT>`
+Kill all swipl processes: sudo killall swipl
+
 ## Using virtualenv kernel in Jupyter Notebook
 
 source activate ENVNAME  
