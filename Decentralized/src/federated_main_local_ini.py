@@ -78,9 +78,18 @@ if __name__ == '__main__':
 	local_model = LocalUpdate(args=args, dataset=train_dataset,
 	                          idxs=user_groups[idx], logger=logger)
 	acc, loss = local_model.inference(model=global_model)
+	torch.save(acc, path_project + '/params/'+str(time.time())+'_acc.pt')
+	torch.save(loss, path_project + '/params/'+str(time.time())+'_loss.pt')
 	list_acc = []
 	list_loss = []
 	list_acc.append(acc)
 	list_loss.append(loss)
 	torch.save(list_acc, path_project + '/params/param_Client[{}]_acc.pt'.format(args.client))
 	torch.save(list_loss, path_project + '/params/param_Client[{}]_loss.pt'.format(args.client))
+
+
+
+	global_model.load_state_dict(w)
+	test_acc, test_loss = test_inference(args, global_model, test_dataset)
+    with open("testData.txt", "w") as f:
+    	f.write(str(test_acc)+","+str(test_loss))
