@@ -10,9 +10,24 @@ mkdir .ssh
 cp id_rsa.pub .ssh/authorized_keys
 
 ## Some Ubuntu terminal commands
-List processes running on that port: sudo lsof -t -i:<PORT>
-Kill processes running on that port: sudo kill -9 `sudo lsof -t -i:<PORT>`
-Kill all swipl processes: sudo killall swipl
+List processes running on that port: `sudo lsof -t -i:<PORT>`  
+Kill processes running on that port: ``sudo kill -9 `sudo lsof -t -i:<PORT>` ``  
+Kill all swipl processes: `sudo killall swipl`  
+Run a command in a new terminal: `gnome-terminal -x <COMMAND>`  
+Search prrevious commands on terminal: `ctlr+r`
+
+### Using screen
+Start new screen session: screen  
+Resume screen session: screen -r  
+List all screen sessions: screen -ls  
+Kill all screen sessions: pkill screen OR killall screen  
+Kill one screen session: screen -X -S <SCREEN ID> quit  
+Launch screen session to execute a command: screen -dmS <SESSION NAME> <COMMAND>
+
+### Searching
+Search file with a name/pattern: find <PATH> -name "<NAME/PATTERN>"  
+Search files containing a pattern: grep -rnw <PATH> -e "<PATTERN>"  
+
 
 ## Using virtualenv kernel in Jupyter Notebook
 
