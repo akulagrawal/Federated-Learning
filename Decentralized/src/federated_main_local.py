@@ -8,6 +8,7 @@ import copy
 import pickle
 import numpy as np
 from tqdm import tqdm
+import time
 
 import torch
 from tensorboardX import SummaryWriter
@@ -99,5 +100,5 @@ if __name__ == '__main__':
 
 	global_model.load_state_dict(w)
 	test_acc, test_loss = test_inference(args, global_model, test_dataset)
-    with open("testData.txt", "w") as f:
-    	f.write(str(test_acc)+","+str(test_loss))
+	with open("testData.txt", "w") as f:
+		f.write(str(test_acc)+","+str(test_loss))

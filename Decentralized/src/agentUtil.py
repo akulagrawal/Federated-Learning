@@ -20,8 +20,7 @@ def main(tempArg, frac=0.2, num_users=100, n_groups=4):
 	file.close()
 
 	while os.path.isfile(".flag2"):
-		#time.sleep(5)
-		pass
+		time.sleep(1)
 
 	if os.path.isfile(path_project + '/params/weights.pt'):
 		global_weights = torch.load(path_project + '/params/weights.pt')
