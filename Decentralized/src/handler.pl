@@ -8,8 +8,7 @@
 handler1(guid,(A,B),main):-
   writeln('agent arrived'),
   writeln(guid:A:B),
-  D is 0,
-  python_call('agentUtil','main',D,X),
+  ((exists_file('.client')) -> (open('.client', read, Cstr), read_file(Cstr,Myline), close(Cstr), nth0(0,Myline,D), python_call('agentUtil','main',D,X)) ; (D is 0, python_call('agentUtil','main',D,X))),
   ((exists_file('.last')) -> post ; writeln('Over')),
   writeln('Back'),
   open('.prolNext', read, Str),

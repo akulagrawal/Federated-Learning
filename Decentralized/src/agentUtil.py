@@ -1,35 +1,34 @@
 import os
 import torch
-import socket 
 import time
 import numpy as np
+import pickle
 
 def delLast(x):
 	os.remove(".last")
 	return "Done"
 
-def main(tempArg, frac=0.2, num_users=100, n_groups=4):
-	path_project = "./.tartarus"
+def runGlobal(client, frac=0.2, epoch=1, epochs=100):
+	os.system("python -W ignore \"federated_main_global.py\" --model=cnn --dataset=mnist \
+				--epochs=" + str(epochs) + " --iid=0 --frac="+str(frac)+" --num_users=100 \
+				--epoch=" + str(epoch) + " --client="+str(client))
+
+def main(client, frac=0.2, num_users=100, n_groups=4):
+	path_project = ".tartarus"
 	if not os.path.isdir(path_project):
 		os.makedirs(path_project)
 	if not os.path.isdir(path_project + "/logs"):
 		os.makedirs(path_project + "/logs")
 	if not os.path.isdir(path_project + "/params"):
 		os.makedirs(path_project + "/params")
-	file = open(".flag1", "w")
-	file.close()
 
-	while os.path.isfile(".flag2"):
-		time.sleep(1)
+	while os.path.isfile(".flag_"+client):
+		time.sleep(0.5)
 
-	if os.path.isfile(path_project + '/params/weights.pt'):
-		global_weights = torch.load(path_project + '/params/weights.pt')
-		if os.path.isfile('.agent_weights.pt'):
-			agent_weights = torch.load('.agent_weights.pt')
-			for key in global_weights.keys():
-				global_weights[key] += agent_weights[key]
-				global_weights[key] = torch.div(global_weights[key], 2)
-			torch.save(global_weights, path_project + '/params/weights.pt')
+	if os.path.isfile(path_project + "/params/param_Client[" + client + "]_weights.pt"):
+		runGlobal(int(client))
+		os.system("scp common/weights.pt btp4@172.16.117.133:~/Documents/Decentralized/src/common/"+client+"_weights.pt")
+		os.system("scp common/results.pkl btp4@172.16.117.133:~/Documents/Decentralized/src/common/"+client+"_results.pkl")
 
 	if os.path.isfile(".next") == False:
 		file = open(".next", "w")
@@ -81,19 +80,16 @@ def main(tempArg, frac=0.2, num_users=100, n_groups=4):
 	with open(".next", "w") as f:
 		for i in range(4,len(lines)):
 			f.write(lines[i]+"\n")
+	with open(".client", "w") as f:
+		f.write("'"+str(lines[3])+"'.\n")
 
-	#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	#s.connect(("8.8.8.8", 80))
-	#IPAddr = s.getsockname()[0]
-
-	if os.path.isfile(path_project + '/params/weights.pt'):
-		os.system("scp "+path_project+"/params/weights.pt btp"+lines[0]+"@"+lines[1]+":~/Documents/Decentralized/src/.agent_weights.pt")
+	if os.path.isfile("common/weights"):
+		os.system("scp common/weights.pt btp"+lines[0]+"@"+lines[1]+":~/Documents/Decentralized/src/common/weights.pt")
 	os.system("scp .next btp"+lines[0]+"@"+lines[1]+":~/Documents/Decentralized/src/.next")
-	os.remove(".flag1")
+	os.system("scp .client btp"+lines[0]+"@"+lines[1]+":~/Documents/Decentralized/src/.client")
 
 	with open(".prolNext", "w") as f:
 		f.write("'"+str(lines[1])+"'.\n")
 		f.write("'"+str(lines[2])+"'.\n")
-
 
 	return "Done"

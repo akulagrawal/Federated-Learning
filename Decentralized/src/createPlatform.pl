@@ -1,3 +1,4 @@
+:-use_module(python_lib).
 :- initialization go.
 
 go :-
@@ -12,30 +13,6 @@ go(Args) :-
 	nth0(0,Args,X),
 	writeln(X),
 	atom_number(X,Y),
-    start_tartarus("172.16.117.148",Y,10).
-
-
-%:- module(loop, [upto/4, downto/4]).
-%
-%upto(Low,High,_Step,Low) :- Low =< High.
-%upto(Low,High,Step,Var) :-
-	%number_string(Low, X),
-    %string_concat('agent', X, Y),
-    %Port is 8000+Low,
-    %writeln(Port),
-    %writeln(Y),
-    %start_tartarus(localhost,Port,Low),
-    %writeln("hi"),
-    %create_mobile_agent(Y,(localhost,Port),handler1,[Low]),
-    %create_mobile_agent(Y,(localhost,Port),handler1,[Low]),
-    %close_tartarus,
-    %close_tartarus,
-    %Inc is Low+Step,
-    %Inc =< High,
-    %upto(Inc, High, Step, Var).
-%
-%downto(Low,High,_Step,High) :- Low =< High.
-%downto(Low,High,Step,Var) :-
-    %Dec is High-Step,
-    %Dec >= Low,
-    %downto(Low, Dec, Step, Var).
+	D is 0,
+	python_call('runLocal', 'getIP', D, IP),
+    start_tartarus(IP,Y,10).

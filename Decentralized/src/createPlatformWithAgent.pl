@@ -12,8 +12,10 @@ go(Args) :-
 	nth0(0,Args,X),
 	writeln(X),
 	atom_number(X,Y),
-    start_tartarus('172.16.117.148',Y,10),
-    create_mobile_agent(agent1,('172.16.117.148',Y),handler1,[10,20]),
+    D is 0,
+    python_call('runLocal', 'getIP', D, IP),
+    start_tartarus(IP,Y,10),
+    create_mobile_agent(agent1,(IP,Y),handler1,[10,20]),
     move_agent(agent1,('172.16.117.147',8000)).
 
 
