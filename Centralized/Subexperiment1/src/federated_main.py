@@ -71,6 +71,8 @@ if __name__ == '__main__':
     cv_loss, cv_acc = [], []
     print_every = 2
     val_loss_pre, counter = 0, 0
+    test_loss, test_accuracy = [], []
+    times = []
 
     for epoch in tqdm(range(args.epochs)):
         local_weights, local_losses = [], []
@@ -100,7 +102,7 @@ if __name__ == '__main__':
         # Calculate avg training accuracy over all users at every epoch
         list_acc, list_loss = [], []
         global_model.eval()
-        for c in range(args.num_users):
+        for idx in range(args.num_users):
             local_model = LocalUpdate(args=args, dataset=train_dataset,
                                       idxs=user_groups[idx], logger=logger)
             acc, loss = local_model.inference(model=global_model)
@@ -114,8 +116,11 @@ if __name__ == '__main__':
             print('Training Loss : ' + str(np.mean(np.array(train_loss))))
             print('Train Accuracy: {:.2f}% \n'.format(100*train_accuracy[-1]))
 
-    # Test inference after completion of training
-    test_acc, test_loss = test_inference(args, global_model, test_dataset)
+        test_acc, test_los = test_inference(args, global_model, test_dataset)
+        test_accuracy.append(test_acc)
+        test_loss.append(test_los)
+        times.append(time.time()-start_time)
+
 
     print(' \n Results after ' + str(args.epochs) + ' global rounds of training:')
     print("|---- Avg Train Accuracy: {:.2f}%".format(100*train_accuracy[-1]))
@@ -127,7 +132,7 @@ if __name__ == '__main__':
                args.local_ep, args.local_bs)
 
     with open(file_name, 'wb') as f:
-        pickle.dump([train_loss, train_accuracy], f)
+        pickle.dump([train_loss, train_accuracy, test_accuracy, test_loss, times], f)
 
     print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
 
