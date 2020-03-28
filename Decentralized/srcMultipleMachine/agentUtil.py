@@ -38,7 +38,10 @@ def main(client, frac=0.2, num_users=100, n_groups=4):
 
 	if len(lines) == 0 or lines[0]=="":
 		m = int((frac*num_users))
-		idxs_users = np.random.choice(range(num_users), m, replace=False)
+		idxs_users = np.random.choice(range(num_users-1), m, replace=False)
+		for i in range(len(idxs_users)):
+			if ((client != 0) and (idxs_users[i] == int(client))):
+				idxs_users[i] = num_users-1
 		with open(".next", "w") as f:
 			for idx in idxs_users:
 				if idx >= 75:
