@@ -3,79 +3,48 @@ import torch
 import time
 import numpy as np
 import pickle
+from runLocal import runClient2
 
-def delLast(x):
-	os.remove(".last")
-	return "Done"
-
-def runGlobal(client, frac=0.2, epoch=1, epochs=100):
+def runGlobal(agent, client, frac=0.2, epoch=1, epochs=100):
 	os.system("python -W ignore \"federated_main_global.py\" --model=cnn --dataset=mnist \
-				--epochs=" + str(epochs) + " --iid=0 --frac="+str(frac)+" --num_users=100 \
-				--epoch=" + str(epoch) + " --client="+str(client))
+				--epochs=" + str(epochs) + " --iid=0 --frac=" + str(frac) + " --num_users=100 \
+				--epoch=" + str(epoch) + " --client=" + str(client) + " --agent=" + agent)
 
-def main(client, frac=0.2, num_users=100, n_groups=4):
-	path_project = ".tartarus"
+def main(args, num_users=100, n_groups=4):
+	
+	client = args.split('.')[0]
+	agent = args.split('.')[1]
+	agentFile = "._"+agent
+	clientFile = "._client_"+agent
+	nextFile = "._prolNext_"+agent
+	path_project = "._tartarus"
+
+	with open(agentFile, "w") as f:
+		f.write(client)
+
 	if not os.path.isdir(path_project):
 		os.makedirs(path_project)
 	if not os.path.isdir(path_project + "/logs"):
 		os.makedirs(path_project + "/logs")
 	if not os.path.isdir(path_project + "/params"):
 		os.makedirs(path_project + "/params")
-
-	while os.path.isfile(".flag_"+client):
-		time.sleep(0.5)
-
-	if os.path.isfile(path_project + "/params/param_Client[" + client + "]_weights.pt"):
-		runGlobal(int(client))
-		os.system("scp common/weights.pt btp4@172.16.117.133:~/Documents/Decentralized/src/common/"+client+"_weights.pt")
-		os.system("scp common/results.pkl btp4@172.16.117.133:~/Documents/Decentralized/src/common/"+client+"_results.pkl")
-
-	if os.path.isfile(".next") == False:
-		file = open(".next", "w")
-		file.close()
-	with open(".next", "r") as f:
-		lines = f.readlines()
-
-	if len(lines) == 0 or lines[0]=="":
-		m = int((frac*num_users))
-		idxs_users = np.random.choice(range(num_users-1), m, replace=False)
-		for i in range(len(idxs_users)):
-			if idxs_users[i] == int(client):
-				idxs_users[i] = num_users-1
-		with open(".next", "w") as f:
-			for idx in idxs_users:
-				f.write("4\n")
-				f.write("172.16.117.133\n")
-				f.write(str(8000+(idx))+"\n")
-				f.write(str(idx)+"\n")
-
-		with open(".post_info", "w") as f:
-			for idx in idxs_users:
-				f.write("'172.16.117.133'.\n")
-				f.write("'"+str(8000+(idx))+"'.\n")
-				f.write("'"+str(idx)+"'.\n")
-
-		file = open(".last", "w")
-		file.close()
 	
-	with open(".next", "r") as f:
-		lines = f.readlines()
+	if client != "":
+		runClient2(client)
+		runGlobal(agent, int(client))
+		os.system("cp common/"+agent+"_weights.pt ~/Documents/Decentralized/src/common/"+agent+"_"+client+"_weights.pt")
+		os.system("cp common/"+agent+"_results.pkl ~/Documents/Decentralized/src/common/"+agent+"_"+client+"_results.pkl")
 
-	for i in range(len(lines)):
-		lines[i] = lines[i].strip('\n')
-	with open(".next", "w") as f:
-		for i in range(4,len(lines)):
-			f.write(lines[i]+"\n")
-	with open(".client", "w") as f:
-		f.write("'"+str(lines[3])+"'.\n")
+	idxs_users = np.random.choice(range(num_users-1), 1, replace=False)
+	if ((client != "") and (idxs_users[0] == int(client))):
+		idxs_users[0] = num_users-1
+	idx = idxs_users[0]
 
-	if os.path.isfile("common/weights"):
-		os.system("scp common/weights.pt btp"+lines[0]+"@"+lines[1]+":~/Downloads/Decentralized/src/common/weights.pt")
-	os.system("scp .next btp"+lines[0]+"@"+lines[1]+":~/Downloads/Decentralized/src/.next")
-	os.system("scp .client btp"+lines[0]+"@"+lines[1]+":~/Downloads/Decentralized/src/.client")
+	with open(clientFile, "w") as f:
+		f.write("'"+str(idx)+"'.\n")
 
-	with open(".prolNext", "w") as f:
-		f.write("'"+str(lines[1])+"'.\n")
-		f.write("'"+str(lines[2])+"'.\n")
+	with open(nextFile, "w") as f:
+		f.write("'172.16.117.133'.\n")
+		f.write("'"+str(8000+(idx))+"'.\n")
 
 	return "Done"

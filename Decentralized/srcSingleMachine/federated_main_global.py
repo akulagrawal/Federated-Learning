@@ -21,7 +21,7 @@ from utils import get_dataset, average_weights, exp_details
 
 if __name__ == '__main__':
 
-	path_project = '.tartarus'
+	path_project = '._tartarus'
 	if not os.path.isdir(path_project):
 		os.makedirs(path_project)
 	if not os.path.isdir(path_project + '/logs'):
@@ -77,16 +77,14 @@ if __name__ == '__main__':
 	global_weights = global_model.state_dict()
 
 	# Training
-	epoch = args.epoch
 	local_weights, local_losses = [], []
-	print('\n | Global Training Round : ' + str(epoch+1) + ' |\n')
+	print('\n | Global Training Round : ' + str(args.epoch+1) + ' |\n')
 
 	global_model.train()
 	
 	w1 = torch.load(path_project + '/params/param_Client[{}]_weights.pt'.format(args.client))
-	w2 = w1
-	if os.path.isfile('common/weights.pt'):
-		w2 = torch.load('common/weights.pt')
+	if os.path.isfile('common/'+args.agent+'_weights.pt'):
+		w2 = torch.load('common/'+args.agent+'_weights.pt')
 	else:
 		w2 = torch.load(path_project + '/params/param_Client[{}]_weights.pt'.format(args.client))
 	for key in global_weights.keys():
@@ -105,8 +103,8 @@ if __name__ == '__main__':
 	train_acc, train_loss = 0.0, 0.0
 	with open(path_project + '/params/trainData_[{}].pkl'.format(args.client), 'rb') as f:
 		train_loss, train_acc = pickle.load(f)
-	with open('common/results.pkl', 'wb') as f:
+	with open('common/'+args.agent+'_results.pkl', 'wb') as f:
 		pickle.dump([train_loss, train_acc, test_acc, test_loss, args.client], f)
 
-	torch.save(global_weights, 'common/weights.pt')
+	torch.save(global_weights, 'common/'+args.agent+'_weights.pt')
 	torch.save(global_weights, path_project + '/params/param_Client[{}]_weights.pt'.format(args.client))

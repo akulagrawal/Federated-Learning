@@ -19,7 +19,7 @@ from utils import get_dataset, average_weights, exp_details
 
 
 if __name__ == '__main__':
-	path_project = ".tartarus"
+	path_project = "._tartarus"
 	if not os.path.isdir(path_project):
 		os.makedirs(path_project)
 	if not os.path.isdir(path_project + "/logs"):

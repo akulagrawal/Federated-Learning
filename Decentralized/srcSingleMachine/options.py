@@ -62,5 +62,7 @@ def args_parser():
     parser.add_argument('--seed', type=int, default=1, help='random seed')
     parser.add_argument('--client', type=int, default=1, help='index of client')
     parser.add_argument('--epoch', type=int, default=0, help='Global round index')
+    parser.add_argument('--agent', type=str, default='agent1', help='Name of agent for decentralized system')
+
     args = parser.parse_args()
     return args

@@ -9,10 +9,9 @@ go :-
 go(Args) :-
 	consult('platform.pl'),
 	consult('handler.pl'),
-    consult('receiveAgent.pl'),
 	nth0(0,Args,X),
 	writeln(X),
 	atom_number(X,Y),
 	D is 0,
 	python_call('runLocal', 'getIP', D, IP),
-    start_tartarus(IP,Y,10).
+    	start_tartarus(IP,Y,10).

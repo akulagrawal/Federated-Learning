@@ -8,15 +8,15 @@ go :-
 go(Args) :-
 	consult('platform.pl'),
 	consult('handler.pl'),
-    consult('receiveAgent.pl'),
 	nth0(0,Args,X),
+	nth0(1,Args,Agent),
 	writeln(X),
 	atom_number(X,Y),
-    D is 0,
-    python_call('runLocal', 'getIP', D, IP),
-    start_tartarus(IP,Y,10),
-    create_mobile_agent(agent1,(IP,Y),handler1,[10,20]),
-    move_agent(agent1,('172.16.117.133',8001)).
+    	D is 0,
+    	python_call('runLocal', 'getIP', D, IP),
+    	start_tartarus(IP,Y,10),
+    	create_mobile_agent(Agent,(IP,Y),handler1,[10,20]),
+    	execute_agent(Agent,(IP,Y),handler1).
 
 
 %:- module(loop, [upto/4, downto/4]).
