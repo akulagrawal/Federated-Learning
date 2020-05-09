@@ -15,6 +15,9 @@ Kill processes running on that port: ``sudo kill -9 `sudo lsof -t -i:<PORT>` ``
 Kill all swipl processes: `sudo killall swipl`  
 Run a command in a new terminal: `gnome-terminal -x <COMMAND>`  
 Search prrevious commands on terminal: `ctlr+r`
+Edit using nano: 1. Open file: `nano <FILENAME>`
+				 2. Save file: `cntrl + o`
+				 3. Close file: `cntrl + x`
 
 ### Using screen
 Start new screen session: screen  
