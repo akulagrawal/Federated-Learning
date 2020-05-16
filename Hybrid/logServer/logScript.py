@@ -4,18 +4,19 @@ import time
 import os
 import time
 import torch
+from time import sleep
 
 n_agents = 3
 
 path_project = "._tartarus"
-if not os.path.isdir(path_project):
-	os.makedirs(path_project)
+#if not os.path.isdir(path_project):
+#	os.makedirs(path_project)
 if not os.path.isdir("common"):
 	os.makedirs("common")
 if not os.path.isdir("global"):
 	os.makedirs("global")
-if not os.path.isdir(path_project + "/params"):
-	os.makedirs(path_project + "/params")
+#if not os.path.isdir(path_project + "/params"):
+#	os.makedirs(path_project + "/params")
 
 globalIdx = 1
 num_users = 100
@@ -31,12 +32,13 @@ flag = 0
 start_time = time.time()
 
 while 1:
+	sleep(0.5)
 	for i in range(num_users):
 		for j in range(n_agents):
 			dir = "common/agent"+str(j)+"_"
 			if os.path.isfile(dir+str(i)+"_weights.pt") and os.path.isfile(dir+str(i)+"_results.pkl"):
 				print("agent"+str(j)+","+str(i)+",local")
-				os.system("cp "+dir+str(i)+"_weights.pt "+path_project+"/params/agent"+str(j)+"_"+str(globalIdx)+"_weights.pt")
+				#os.system("cp "+dir+str(i)+"_weights.pt "+path_project+"/params/agent"+str(j)+"_"+str(globalIdx)+"_weights.pt")
 				os.remove(dir+str(i)+"_weights.pt")
 			
 				with open(dir+str(i)+"_results.pkl", 'rb') as f:
@@ -72,7 +74,12 @@ while 1:
 				for k in range(num_users):
 					w1 = torch.load("global_weights.pt")
 					if os.path.isfile(clientDir+path_project+"/params/param_Client["+str(k)+"]_weights.pt"):
-						w1 = torch.load(clientDir+path_project+"/params/param_Client["+str(k)+"]_weights.pt")
+						while 1:
+							try:
+								w1 = torch.load(clientDir+path_project+"/params/param_Client["+str(k)+"]_weights.pt")
+								break
+							except:
+								pass
 					w2 = torch.load("global_weights.pt")
 					for key in w1.keys():
 						w2[key] += w1[key]
