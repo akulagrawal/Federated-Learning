@@ -10,7 +10,7 @@ def runGlobal(agent, client, frac=0.2, epoch=1, epochs=100):
 				--epochs=" + str(epochs) + " --iid=0 --frac=" + str(frac) + " --num_users=100 \
 				--epoch=" + str(epoch) + " --client=" + str(client) + " --agent=" + agent)
 
-def main(args, num_users=100, n_groups=4, clientsInGap=50):
+def main(args, num_users=100, n_groups=4, clientsInGap=50, topology="STAR"):
 	
 	client = args.split('.')[0]
 	agent = args.split('.')[1]
@@ -36,10 +36,40 @@ def main(args, num_users=100, n_groups=4, clientsInGap=50):
 		os.system("cp common/"+agent+"_weights.pt ~/Documents/Decentralized/src/common/"+agent+"_"+client+"_weights.pt")
 		os.system("cp common/"+agent+"_results.pkl ~/Documents/Decentralized/src/common/"+agent+"_"+client+"_results.pkl")
 
-	idxs_users = np.random.choice(range(num_users-1), 1, replace=False)
-	if ((client != "") and (idxs_users[0] == int(client))):
-		idxs_users[0] = num_users-1
-	idx = idxs_users[0]
+		if topology == "MESH":
+			temp = np.random.choice(range(num_users-1), 1, replace=False)
+			idx = temp[0]
+			if (idx == int(client)):
+				idx = num_users-1
+		elif topology == "RING":
+			temp = np.random.choice(range(2), 1, replace=False)
+			direction = temp[0]
+			idx = int(client)
+			if direction == 0:
+				idx = (idx+num_users-1)%num_users
+			else:
+				idx = (idx+1)%num_users
+		elif topology == "STAR":
+			arm_size = 9
+			n_arms = 11
+			idx = int(client)
+			if (idx == 0):
+				temp = np.random.choice(range(n_arms), 1, replace=False)
+				armIdx = temp[0]
+				idx = 1+armIdx*arm_size
+			elif (idx%arm_size == 0):
+				idx = idx-1
+			else:
+				temp = np.random.choice(range(2), 1, replace=False)
+				direction = temp[0]
+				if direction == 0:
+					idx = idx-1
+				else:
+					idx = idx+1
+	else:
+		temp = np.random.choice(range(num_users), 1, replace=False)
+		idx = temp[0]
+
 
 	with open(clientFile, "w") as f:
 		f.write("'"+str(idx)+"'.\n")
